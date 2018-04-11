@@ -18,8 +18,30 @@ public class VendingMachineTest {
         FakeDisplay display = new FakeDisplay();
         VendingMachine vm = new VendingMachine(display);
 
+        display.whenShowTextIsCalledThenReturn("Something");
         vm.pressButton();
 
         display.verifyThatShowTextWasCalled();
+    }
+
+    @Test
+    public void selectingColaResultsInDisplayDisplayingCola(){
+
+        FakeDisplay display = new FakeDisplay();
+        VendingMachine vm = new VendingMachine(display);
+
+        vm.selectItem("Cola");
+
+        display.verifyThatSetTextIsCalledWithGivenArgument("Cola");
+    }
+
+    @Test
+    public void whenColaIsDispensedDisplayWillBeReset() {
+        FakeDisplay display = new FakeDisplay();
+        VendingMachine vm = new VendingMachine(display);
+
+        vm.selectItem("Cola");
+
+        display.verifyThatSetTextIsCalledWithGivenArgument("Cola").times(2);
     }
 }
